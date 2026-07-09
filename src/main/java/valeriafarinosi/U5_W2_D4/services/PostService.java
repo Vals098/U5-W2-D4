@@ -14,7 +14,6 @@ import java.util.List;
 @Slf4j
 public class PostService {
 
-//    private List<BlogPost> postsDB = new ArrayList<>();
 
     //    PostRepository's DI
     private final PostRepository postRepository;
@@ -35,17 +34,7 @@ public class PostService {
 
     //    2.
     public BlogPost findById(int postId) {
-//        ----------------------------------- List ------------------------------------------
-//        BlogPost found = null;
-//
-//        for (BlogPost blogPost : this.postsDB) {
-//            if (blogPost.getPostId() == postId) found = blogPost;
-//        }
-//        if (found == null) throw new NotFoundException(postId);
-//
-//        return found;
 
-//        ----------------------------------- Repository ------------------------------------------
         BlogPost found = this.postRepository.findById(postId).orElseThrow(() -> new NotFoundException(postId));
 
         return found;
@@ -74,23 +63,7 @@ public class PostService {
 
     //    4.
     public BlogPost findByIdAndUpdate(int postId, PostRequestDTO payload) {
-//        ----------------------------------- List ------------------------------------------
-//        BlogPost found = null;
-//
-//        for (BlogPost post : this.postsDB) {
-//            if (post.getPostId() == postId) {
-//                found = post;
-//                found.setTitle(payload.getTitle());
-//                found.setBlogCategory(payload.getBlogCategory());
-//                found.setContent(payload.getContent());
-//                found.setReadingTime(payload.getReadingTime());
-//            }
-//        }
-//        if (found == null) throw new NotFoundException(postId);
-//
-//        return found;
 
-//        ----------------------------------- Repository ------------------------------------------
         BlogPost found = this.postRepository.findById(postId).orElseThrow(() -> new NotFoundException(postId));
 
         BlogAuthor author = this.authorService.findById(payload.authorId());
@@ -108,18 +81,7 @@ public class PostService {
 
     // 5.
     public void findByIdAndDelete(int postId) {
-//        ----------------------------------- List ------------------------------------------
-//        BlogPost found = null;
-//
-//        for (BlogPost post : this.postsDB) {
-//            if (post.getPostId() == postId) found = post;
-//        }
-//
-//        if (found == null) throw new NotFoundException(postId);
-//
-//        this.postsDB.remove(found);
 
-//        ----------------------------------- Repository ------------------------------------------
 
         BlogPost found = this.postRepository.findById(postId).orElseThrow(() -> new NotFoundException(postId));
 

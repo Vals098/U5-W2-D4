@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import valeriafarinosi.U5_W2_D4.entities.BlogAuthor;
 import valeriafarinosi.U5_W2_D4.exceptions.ValidationException;
 import valeriafarinosi.U5_W2_D4.payloads.AuthorRequestDTO;
@@ -72,6 +73,16 @@ public class AuthorController {
     @ResponseStatus(HttpStatus.NO_CONTENT) //204
     public void findByIdAndDelete(@PathVariable int authorId) {
         this.authorService.findByIdAndDelete(authorId);
+    }
+
+    //    6. UPLOAD PROFILE PIC
+    //    il body non è JSON ma multipart/form-data, non posso usare @RequestBody, devo usare @RequestParam MultipartFile file
+    @PatchMapping("/{authorId}/avatar")
+    public void uploadAvatar(
+            @PathVariable int authorId,
+            @RequestParam("avatar") MultipartFile file) {
+        this.authorService.updateAvatar(authorId, file);
+
     }
 
 
