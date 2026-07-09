@@ -1,8 +1,11 @@
 package valeriafarinosi.U5_W2_D4.controllers;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import valeriafarinosi.U5_W2_D4.entities.BlogPost;
+import valeriafarinosi.U5_W2_D4.exceptions.ValidationException;
 import valeriafarinosi.U5_W2_D4.payloads.PostRequestDTO;
 import valeriafarinosi.U5_W2_D4.payloads.PostResponseDTO;
 import valeriafarinosi.U5_W2_D4.services.PostService;
@@ -38,14 +41,30 @@ public class PostController {
     //    3. POST http://localhost:3003/blogPosts + payload -> create a new BlogPost
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED) //201
-    public PostResponseDTO createPost(@RequestBody PostRequestDTO payload) {
+    public PostResponseDTO createPost(@RequestBody @Validated PostRequestDTO payload, BindingResult validationResult) {
+
+        if (validationResult.hasErrors()) {
+//            List<String> ma anche: stringa unica oppure HashMap
+            List<String> errorsList = validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList();
+            throw new ValidationException(errorsList);
+
+        }
+
         BlogPost saved = this.postService.savePost(payload);
         return new PostResponseDTO(saved.getPostId());
     }
 
     // 4. PUT http://localhost:3003/blogPosts/{postId} + payload -> update the BlogPost with id = postId
     @PutMapping("/{postId}")
-    public BlogPost findByIdAndUpdate(@PathVariable int postId, @RequestBody PostRequestDTO payload) {
+    public BlogPost findByIdAndUpdate(@PathVariable int postId, @RequestBody @Validated PostRequestDTO payload, BindingResult validationResult) {
+
+        if (validationResult.hasErrors()) {
+//            List<String> ma anche: stringa unica oppure HashMap
+            List<String> errorsList = validationResult.getFieldErrors().stream().map(fieldError -> fieldError.getDefaultMessage()).toList();
+            throw new ValidationException(errorsList);
+
+        }
+
         return this.postService.findByIdAndUpdate(postId, payload);
 
     }
