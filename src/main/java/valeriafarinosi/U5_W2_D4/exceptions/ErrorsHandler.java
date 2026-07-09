@@ -13,6 +13,12 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class ErrorsHandler {
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
+    public ErrorsDTO handleBadRequest(BadRequestException ex) {
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND) // 404
     public ErrorsDTO handleNotFound(NotFoundException ex) {
@@ -25,7 +31,7 @@ public class ErrorsHandler {
 
         ex.printStackTrace();
 
-        return new ErrorsDTO("C'è stato un errore lato backend, giuro che lo risolviamo presto", LocalDateTime.now());
+        return new ErrorsDTO("BackEnd error, will fix soon", LocalDateTime.now());
     }
 
 }

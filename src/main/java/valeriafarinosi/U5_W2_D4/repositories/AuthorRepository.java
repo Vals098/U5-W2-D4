@@ -7,4 +7,5 @@ import valeriafarinosi.U5_W2_D4.entities.BlogAuthor;
 @Repository
 public interface AuthorRepository extends JpaRepository<BlogAuthor, Integer> {
 
+    boolean existsByEmail(String email);
 }

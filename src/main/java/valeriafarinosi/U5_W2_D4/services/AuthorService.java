@@ -4,6 +4,7 @@ package valeriafarinosi.U5_W2_D4.services;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import valeriafarinosi.U5_W2_D4.entities.BlogAuthor;
+import valeriafarinosi.U5_W2_D4.exceptions.BadRequestException;
 import valeriafarinosi.U5_W2_D4.exceptions.NotFoundException;
 import valeriafarinosi.U5_W2_D4.payloads.AuthorRequestDTO;
 import valeriafarinosi.U5_W2_D4.repositories.AuthorRepository;
@@ -50,6 +51,10 @@ public class AuthorService {
 
     //    3.
     public BlogAuthor saveAuthor(AuthorRequestDTO payload) {
+
+//        controlli
+        if (this.authorRepository.existsByEmail(payload.email()))
+            throw new BadRequestException("The email address " + payload.email() + " is already in use.");
 
         BlogAuthor newAuthor = new BlogAuthor(payload.name(), payload.surname(), payload.email(), payload.birthDate());
 
